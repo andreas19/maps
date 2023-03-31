@@ -142,6 +142,27 @@ func FromSlices[K comparable, V any](keys []K, values []V) map[K]V {
 	return m
 }
 
+// FromFuncs makes a map from the return values of two functions (e.g. from math.random).
+// Panics if the keys functions is nil or size is negative.
+// If the values function is nil, the zero value of type V will be used for all values.
+func FromFuncs[K comparable, V any](size int, keys func() K, values func() V) map[K]V {
+	if size < 0 {
+		panic("size must be >= 0")
+	}
+	if keys == nil {
+		panic("nil functions")
+	}
+	m := make(map[K]V, size)
+	for i := 0; i < size; i++ {
+		var v V
+		if values != nil {
+			v = values()
+		}
+		m[keys()] = v
+	}
+	return m
+}
+
 // KeysForValue returns a slice with keys which have the given value.
 func KeysForValue[K, V comparable](m map[K]V, value V) []K {
 	return KeysForValueFunc(m, value, func(v1 V, v2 V) bool {
