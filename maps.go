@@ -125,7 +125,7 @@ func FromItems[K comparable, V any](items []Item[K, V]) map[K]V {
 
 // FromSlices makes a map from two slices.
 // If the keys slice is longer then the values slice, the surplus keys will have
-// the zero value of type T as their value. Surplus values will be ignored.
+// the zero value of type V as their value. Surplus values will be ignored.
 func FromSlices[K comparable, V any](keys []K, values []V) map[K]V {
 	if keys == nil {
 		return nil
