@@ -184,3 +184,16 @@ func KeysForValueFunc[K, V comparable](m map[K]V, value V, equal func(v1, v2 V) 
 	}
 	return keys
 }
+
+// Delete deletes all items from m for which fn returns true and
+// returns the number of deleted items.
+func Delete[K comparable, V any](m map[K]V, fn func(k K, v V) bool) int {
+	cnt := 0
+	for k, v := range m {
+		if fn(k, v) {
+			delete(m, k)
+			cnt++
+		}
+	}
+	return cnt
+}

@@ -280,3 +280,54 @@ func TestKeysForValue(t *testing.T) {
 		}
 	}
 }
+
+func TestDelete(t *testing.T) {
+	var tests = []struct {
+		m        map[string]int
+		fn       func(k string, v int) bool
+		want_int int
+		want_map map[string]int
+	}{
+		{
+			nil,
+			func(k string, v int) bool { return true },
+			0,
+			nil,
+		},
+		{
+			map[string]int{},
+			func(k string, v int) bool { return true },
+			0,
+			map[string]int{},
+		},
+		{
+			map[string]int{"a": 1, "b": 2, "c": 1},
+			func(k string, v int) bool { return true },
+			3,
+			map[string]int{},
+		},
+		{
+			map[string]int{"a": 1, "b": 2, "c": 1},
+			func(k string, v int) bool { return false },
+			0,
+			map[string]int{"a": 1, "b": 2, "c": 1},
+		},
+		{
+			map[string]int{"a": 1, "b": 2, "c": 1},
+			func(k string, v int) bool { return v < 2 },
+			2,
+			map[string]int{"b": 2},
+		},
+		{
+			map[string]int{"a": 1, "b": 2, "c": 1},
+			func(k string, v int) bool { return k == "b" },
+			1,
+			map[string]int{"a": 1, "c": 1},
+		},
+	}
+	for i, test := range tests {
+		if got := Delete(test.m, test.fn); got != test.want_int || !reflect.DeepEqual(test.m, test.want_map) {
+			t.Errorf("%d: got %d and %#v, want %d and %#v", i, got, test.m, test.want_int, test.want_map)
+		}
+	}
+}
