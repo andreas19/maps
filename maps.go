@@ -172,7 +172,7 @@ func KeysForValue[K, V comparable](m map[K]V, value V) []K {
 
 // KeysForValueFunc returns a slice with keys which have the given value using
 // a function to compare values.
-func KeysForValueFunc[K, V comparable](m map[K]V, value V, equal func(v1, v2 V) bool) []K {
+func KeysForValueFunc[K comparable, V any](m map[K]V, value V, equal func(v1, v2 V) bool) []K {
 	if m == nil {
 		return nil
 	}
