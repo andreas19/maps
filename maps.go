@@ -1,7 +1,7 @@
 // Package maps provides some functions for working with Go maps.
 package maps
 
-// Clone clones a map.
+// Clone returns a shallow copy of map m.
 func Clone[K comparable, V any](m map[K]V) map[K]V {
 	if m == nil {
 		return nil
@@ -13,7 +13,7 @@ func Clone[K comparable, V any](m map[K]V) map[K]V {
 	return result
 }
 
-// Update updates a map with items from another map.
+// Update updates map m1 with items from map m2.
 func Update[K comparable, V any](m1, m2 map[K]V) {
 	if m1 == nil {
 		panic("cannot update nil map")
@@ -23,7 +23,7 @@ func Update[K comparable, V any](m1, m2 map[K]V) {
 	}
 }
 
-// Clear removes all items from a map.
+// Clear removes all items from map m.
 func Clear[K comparable, V any](m map[K]V) {
 	for k := range m {
 		delete(m, k)
@@ -99,7 +99,7 @@ type Item[K comparable, V any] struct {
 	Value V
 }
 
-// Items returns a slice of [Item] objects for the given map.
+// Items returns a slice of [Item] objects for map m.
 func Items[K comparable, V any](m map[K]V) []Item[K, V] {
 	if m == nil {
 		return nil
@@ -185,7 +185,7 @@ func KeysForValueFunc[K comparable, V any](m map[K]V, value V, equal func(v1, v2
 	return keys
 }
 
-// Delete deletes all items from m for which fn returns true and
+// Delete deletes all items from map m for which fn returns true and
 // returns the number of deleted items.
 func Delete[K comparable, V any](m map[K]V, fn func(k K, v V) bool) int {
 	cnt := 0
