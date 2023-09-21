@@ -44,6 +44,29 @@ func TestUpdateNil(t *testing.T) {
 	t.Errorf("did not panic")
 }
 
+func TestMerge(t *testing.T) {
+	var tests = []struct{ m1, m2, want map[string]int }{
+		{map[string]int{}, map[string]int{}, map[string]int{}},
+		{map[string]int{}, nil, map[string]int{}},
+		{map[string]int{}, map[string]int{"a": 1}, map[string]int{"a": 1}},
+		{map[string]int{"a": 1}, map[string]int{"a": 1, "b": 2}, map[string]int{"a": 1, "b": 2}},
+	}
+	for i, test := range tests {
+		m := Merge(test.m1, test.m2)
+		if !reflect.DeepEqual(m, test.want) {
+			t.Errorf("%d: got %v, want %v", i, m, test.want)
+		}
+	}
+}
+
+func TestMergeNil(t *testing.T) {
+	defer func() { _ = recover() }()
+	var m1 map[string]int
+	m2 := map[string]int{}
+	Merge(m1, m2)
+	t.Errorf("did not panic")
+}
+
 func TestClear(t *testing.T) {
 	var tests = []map[string]int{
 		{},

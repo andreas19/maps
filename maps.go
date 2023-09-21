@@ -24,6 +24,15 @@ func Update[K comparable, V any](m1, m2 map[K]V) {
 	}
 }
 
+// Merge merges two maps and returns a new map. If a key is present in both
+// maps, the value in m1 will be overwritten with the value from m2.
+// Panics if m1 is nil.
+func Merge[K comparable, V any](m1, m2 map[K]V) map[K]V {
+	result := Clone(m1)
+	Update(result, m2)
+	return result
+}
+
 // Clear removes all items from map m.
 func Clear[K comparable, V any](m map[K]V) {
 	for k := range m {
