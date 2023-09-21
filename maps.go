@@ -15,6 +15,7 @@ func Clone[K comparable, V any](m map[K]V) map[K]V {
 
 // Update updates map m1 with items from map m2. If a key is present in both
 // maps, the value in m1 will be overwritten with the value from m2.
+// Panics if m1 is nil.
 func Update[K comparable, V any](m1, m2 map[K]V) {
 	if m1 == nil {
 		panic("cannot update nil map")
