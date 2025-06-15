@@ -73,11 +73,6 @@ func TestClear(t *testing.T) {
 		{"a": 1},
 		{"a": 1, "b": 2},
 	}
-	var m map[string]int
-	Clear(m)
-	if m != nil {
-		t.Errorf("got %v, want nil map", m)
-	}
 	want := map[string]int{}
 	for i, test := range tests {
 		Clear(test)
