@@ -12,3 +12,13 @@ func Iter[K comparable, V any](m map[K]V) iter.Seq2[K, V] {
 		}
 	}
 }
+
+func IterKeys[K comparable, V any](m map[K]V) iter.Seq[K] {
+	return func(yield func(K) bool) {
+		for k := range m {
+			if !yield(k) {
+				return
+			}
+		}
+	}
+}
