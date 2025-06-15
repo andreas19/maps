@@ -22,3 +22,14 @@ func IterKeys[K comparable, V any](m map[K]V) iter.Seq[K] {
 		}
 	}
 }
+
+// IterValues returns an iterator over the values from m.
+func IterValues[K comparable, V any](m map[K]V) iter.Seq[V] {
+	return func(yield func(V) bool) {
+		for _, v := range m {
+			if !yield(v) {
+				return
+			}
+		}
+	}
+}
